@@ -10,20 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: kitapliste
-          MYSQL_ROOT_PASSWORD: 2550
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p2550"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
     steps:
       - name: Depoyu Kontrol Et
         uses: actions/checkout@v4
@@ -35,22 +21,5 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: MySQL hazır olana kadar bekle
-        run: |
-          for i in {1..40}; do
-            if mysqladmin ping -h 127.0.0.1 -uroot -p2550 --silent; then
-              echo "MySQL hazır"
-              break
-            fi
-            echo "MySQL bekleniyor..."
-            sleep 3
-          done
-
-           - name: Maven Test + Build
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/kitapliste?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: 2550
-          SPRING_JPA_HIBERNATE_DDL_AUTO: update
-        run: mvn -B clean verify -DskipTests
-
+      - name: Maven Test + Build
+        run: mvn -B clean package -DskipTests
