@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hasta Kayıt</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="page-bg">
+
+<div class="card">
+
+    <h2>Hasta Kayıt</h2>
+
+    <form th:action="@{/hasta/kaydet}" method="post" th:object="${hasta}">
+
+        <input type="text" th:field="*{ad}" placeholder="Ad" required>
+        <input type="text" th:field="*{soyad}" placeholder="Soyad" required>
+        <input type="email" th:field="*{email}" placeholder="Email" required>
+        <input type="text" th:field="*{kullaniciAdi}" placeholder="Kullanıcı Adı" required>
+        <input type="password" th:field="*{sifre}" placeholder="Şifre" required>
+
+        <button type="submit">Kaydol</button>
+    </form>
+
+    <div class="altlink">
+        <a href="/giris">Giriş sayfasına dön</a>
+    </div>
+
+</div>
+
+</body>
+</html>

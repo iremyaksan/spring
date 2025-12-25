@@ -1,0 +1,93 @@
+/* ---- BLUR ARKA PLAN TÜM KAYIT/GİRİŞ EKRANLARI İÇİN ---- */
+.page-bg {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: url("/images/diyet.jpg") no-repeat center center fixed;
+    background-size: cover;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* blur efekti */
+.page-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(7px);
+    background: rgba(0, 0, 0, 0.30);
+}
+
+/* Kart üstte görünsün */
+.card {
+    z-index: 2;
+    background: white;
+    padding: 35px;
+    width: 390px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease;
+}
+
+.card h2 {
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+/* Form elemanları */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 15px;
+    background: #f9fffa;
+}
+
+input:focus, textarea:focus {
+    border-color: #2e7d32;
+    outline: none;
+}
+
+/* Buton */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #2e7d32;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+/* Alt link */
+.altlink {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.altlink a {
+    color: #2e7d32;
+    text-decoration: none;
+}
+
+.altlink a:hover {
+    text-decoration: underline;
+}
+
+/* Animasyon */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hasta Paneli</title>
+
+
+    <style>
+       
+        :root {
+            --ana-yesil: #38761D;
+            --acik-yesil: #D9EAD3; 
+            --beyaz: #FFFFFF;
+            --golge: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--acik-yesil);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+  
+        .panel {
+            width: 850px;
+            max-width: 90%;
+            background: var(--beyaz);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px var(--golge);
+        
+        }
+        
+        .panel h2 {
+            color: var(--ana-yesil);
+            font-size: 2em;
+            border-bottom: 2px solid var(--acik-yesil);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+     
+        .panel h3 {
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+ 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: var(--ana-yesil); 
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #ffffff;
+        }
+        
+        tr:nth-child(even) td {
+            background: #f9fff9;
+        }
+        
+        
+        .mesaj-box textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--acik-yesil);
+            resize: vertical;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        
+        .mesaj-box button[type="submit"] {
+            padding: 12px 25px;
+            background: var(--ana-yesil);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+
+        .mesaj-box button[type="submit"]:hover {
+            background: #1b5e20;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="panel">
+
+    <h2 th:text="'Merhaba, ' + ${hasta.ad} + '!'">Merhaba, [Hasta Adı]!</h2>
+
+    <h3>🥦 Aktif Diyet Listem</h3>
+
+    <table>
+        <tr>
+            <th>Diyet Adı</th>
+            <th>İçerik</th>
+        </tr>
+        
+        <tr th:each="d : ${diyetler}">
+            <td th:text="${d.diyetAdi}"></td>
+            <td th:text="${d.icerik}"></td>
+        </tr>
+        
+        
+    </table>
+
+    <h3>Diyetisyene Mesaj Gönder</h3>
+
+    <form th:action="@{/mesaj/gonder}" method="post" class="mesaj-box">
+        <textarea name="icerik" placeholder="Diyetisyeninize sormak istediklerinizi buraya yazın..."></textarea>
+        <button type="submit">Gönder</button>
+    </form>
+    
+    <h3>Bilgi</h3>
+    <p style="color: #666;">Diyetisyeninizden yeni bir liste veya mesaj gelip gelmediğini kontrol etmeyi unutmayın.</p>
+    
+</div>
+
+</body>
+</html>

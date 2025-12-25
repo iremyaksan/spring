@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Diyetisyen Paneli</title>
+    
+    <style>
+        :root {
+            --ana-yesil: #38761D; 
+            --acik-yesil: #D9EAD3; 
+            --beyaz: #FFFFFF;
+            --golge: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--acik-yesil);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex; 
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background-color: var(--beyaz);
+            box-shadow: 2px 0 10px var(--golge);
+            padding: 20px 0;
+        }
+
+        .profil-kutu {
+            text-align: center;
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profil-kutu img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--ana-yesil);
+            object-fit: cover;
+        }
+
+        .profil-kutu h2 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: var(--ana-yesil);
+            font-size: 1.2em;
+        }
+        .profil-kutu p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+
+        .nav-menu {
+            margin-top: 20px;
+        }
+        .nav-item {
+            padding: 12px 20px;
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .nav-item:hover, .nav-item.aktif {
+            background-color: var(--acik-yesil);
+            color: var(--ana-yesil);
+            border-left: 4px solid var(--ana-yesil);
+            padding-left: 16px; 
+        }
+    
+        .nav-item::before {
+            content: "🌿"; 
+            margin-right: 10px;
+            color: var(--ana-yesil);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        .selamlama {
+            font-size: 1.8em;
+            color: var(--ana-yesil);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        /* Kart Yapısı */
+        .card {
+            background: var(--beyaz);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px var(--golge);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            color: var(--ana-yesil);
+            border-bottom: 2px solid var(--acik-yesil);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        /* Tablo Stili */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: var(--acik-yesil);
+            color: var(--ana-yesil);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover {
+            background: #f8f8f8;
+        }
+
+        a.ekle { color: #2e7d32; font-weight: bold; text-decoration: none; }
+        a.sil { color: #d32f2f; font-weight: bold; text-decoration: none; }
+        a.ekle:hover, a.sil:hover { text-decoration: underline; }
+
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--acik-yesil);
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--ana-yesil);
+            color: var(--beyaz);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="profil-kutu">
+        <img src="/images/ben.jpg" alt="Diyetisyen Foto">
+        <h2 th:text="${aktifKisi.ad + ' ' + aktifKisi.soyad}"></h2>
+        <p th:text="${aktifKisi.unvan}"></p>
+    </div>
+
+    <div class="nav-menu">
+        <div class="nav-item">Çıkış Yap</div>
+    </div>
+</div>
+
+<div class="main-content">
+    
+    <div class="selamlama">
+        Merhaba, <span th:text="${aktifKisi.ad}"></span>! 🌿
+    </div>
+
+    <div id="hastalar" class="card">
+        <h3>Hastalar Listesi</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>Kullanıcı Adı</th>
+                <th>İşlem</th>
+            </tr>
+            <tr th:each="h : ${hastalar}">
+                <td th:text="${h.id}"></td>
+                <td th:text="${h.ad + ' ' + h.soyad}"></td>
+                <td th:text="${h.kullaniciAdi}"></td>
+                <td><a class="ekle" th:href="@{/diyet/ekle(hastaId=${h.id})}">Diyet Ekle</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="diyetler" class="card">
+        <h3>Son Diyet Listeleri</h3>
+        <table>
+            <tr>
+                <th>Hasta</th>
+                <th>Diyet Adı</th>
+                <th>İçerik Özeti</th>
+                <th>Sil</th>
+            </tr>
+            <tr th:each="d : ${diyetler}">
+                <td th:text="${d.hasta.ad + ' ' + d.hasta.soyad}"></td>
+                <td th:text="${d.diyetAdi}"></td>
+                <td><span th:text="${#strings.substring(d.icerik, 0, #strings.length(d.icerik) > 50 ? 50 : #strings.length(d.icerik)) + (#strings.length(d.icerik) > 50 ? '...' : '')}"></span></td>
+                <td><a class="sil" th:href="@{/diyet/sil(id=${d.id})}">Sil</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="mesajlar" class="card">
+        <h3>Hasta Mesajları</h3>
+        <table>
+            <tr>
+                <th>Hasta</th>
+                <th>Mesaj Özeti</th>
+                <th>Tarih</th>
+            </tr>
+            <tr th:each="m : ${mesajlar}">
+                <td th:text="${m.hasta.ad + ' ' + m.hasta.soyad}"></td>
+                <td><span th:text="${#strings.substring(m.icerik, 0, #strings.length(m.icerik) > 60 ? 60 : #strings.length(m.icerik)) + (#strings.length(m.icerik) > 60 ? '...' : '')}"></span></td>
+                <td th:text="${#temporals.format(m.tarih, 'dd.MM.yyyy HH:mm')}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="geribildirim" class="card">
+        <h3>Geri Bildirim/Bildirim Gönder</h3>
+        <form>
+            <textarea placeholder="Geri bildiriminizi yazın..."></textarea>
+            <button>Gönder</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
