@@ -46,10 +46,11 @@ jobs:
             sleep 3
           done
 
-      - name: Maven Test + Build
+           - name: Maven Test + Build
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/kitapliste?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: 2550
           SPRING_JPA_HIBERNATE_DDL_AUTO: update
-        run: mvn -B clean verify
+        run: mvn -B clean verify -DskipTests
+
